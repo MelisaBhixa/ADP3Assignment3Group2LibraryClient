@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import okhttp3.*;
 import za.ac.cput.entity.User;
 import za.ac.cput.factory.UserFactory;
+import za.ac.cput.views.author.AuthorMainGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +56,7 @@ public class Menu extends JFrame implements ActionListener {
         this.add(btnUserConfig);
         btnUserConfig.addActionListener(this);
         this.add(btnAuthors);
-        //actionList
+        btnAuthors.addActionListener(this::actionView); // Not sure if this is right
         this.add(btnBooks);
         //actionList
         this.add(btnLoanBook);
@@ -84,6 +85,19 @@ public class Menu extends JFrame implements ActionListener {
             // Call to user package and the UserMainGUI to show CRUD menu for that entity
         }
         if (e.getSource() == btnExit) {
+            System.exit(0);
+        }
+    }
+
+    //Takes you to Author main menu
+    public void actionView (ActionEvent a) {
+        if(a.getSource() == btnAuthors) {
+            // Reference custom method here
+            JOptionPane.showMessageDialog(null,"Author Menu Option Selected");
+            new AuthorMainGUI().GUISetup(); //Magic
+            // Call to author package and the authorMainGUI to show CRUD menu for that entity
+        }
+        if (a.getSource() == btnExit) {
             System.exit(0);
         }
     }
