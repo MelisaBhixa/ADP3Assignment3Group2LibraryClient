@@ -6,4 +6,5 @@ package za.ac.cput.views.user;
  */
 public class AddUser {
     //GUI for adding new Users
+
 }
