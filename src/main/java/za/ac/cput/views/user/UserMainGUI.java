@@ -1,6 +1,7 @@
 package za.ac.cput.views.user;
 
 import za.ac.cput.views.Menu;
+import za.ac.cput.views.user.*;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 
@@ -32,7 +33,6 @@ public class UserMainGUI extends JFrame implements ActionListener {
     private JLabel  lblPadding;
     private JButton btnBack;
 
-
     //2. Instantiate objects
     public UserMainGUI(){
         super("Library Loan Application - User Main Menu");
@@ -45,15 +45,20 @@ public class UserMainGUI extends JFrame implements ActionListener {
         btnBack = new JButton("Back");
     }
 
-
     public void setGUI(){
         this.setLayout(new GridLayout(7,1));
 
         this.add(lblHeading);
+
         this.add(btnGetUsers);
+        btnGetUsers.addActionListener(this);
         this.add(btnAddUsers);
+        btnAddUsers.addActionListener(this);
         this.add(btnUpdateUsers);
+        btnUpdateUsers.addActionListener(this);
         this.add(btnDeleteUsers);
+        btnDeleteUsers.addActionListener(this);
+
         this.add(lblPadding);
         this.add(btnBack);
         btnBack.addActionListener(this);
@@ -63,27 +68,37 @@ public class UserMainGUI extends JFrame implements ActionListener {
         this.pack();
         this.setLocationRelativeTo(null); // Center screen
         this.setVisible(true);
-
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-       // if(e.getSource() == btn) {)
-        if (e.getSource() == btnBack) {
-            //Back to main menu
-            Menu.main(null);
-            this.setVisible(false);
+
+        switch (e.getActionCommand()){
+            case "View All Users": // Go to GetUsers
+                GetUsers.main(null);
+                this.setVisible(false);
+                break;
+            case "Add new User": // Go to AddUser
+                AddUser.main(null);
+                this.setVisible(false);
+                break;
+            case "Update User": // Go to UpdateUser
+                UpdateUser.main(null);
+                this.setVisible(false);
+                break;
+            case "Delete User": // Go to DeleteUser
+                DeleteUser.main(null);
+                this.setVisible(false);
+                break;
+            case "Back": //Back to main menu
+                Menu.main(null);
+                this.setVisible(false);
+                break;
         }
-
     }
-
-    // Custom methods:
-
-
-    // Post method
 
     //3.Run with main method
     public static void main(String[] args) {
         new UserMainGUI().setGUI();
     }
-
 }
