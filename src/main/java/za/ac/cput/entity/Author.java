@@ -1,5 +1,8 @@
 package za.ac.cput.entity;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * author.java
  * This code represents an entity using the builder pattern
@@ -10,7 +13,9 @@ package za.ac.cput.entity;
 //This package "entity/domain - is the blueprint part of things (skeleton)
 public class Author
 {
-    private String authorId, name, surname, bio;
+    public String authorId, name, surname, bio;
+
+    public Author() {}
 
     private Author(Builder builder)
     {
@@ -29,6 +34,16 @@ public class Author
                 ", surname='" + surname + '\'' +
                 ", bio='" + bio + '\'' +
                 '}';
+    }
+
+    public String json() {
+        return """
+                {
+                    "name": "%s",
+                    "surname": "%s",
+                    "bio": "%s"
+                }
+                """.formatted(name, surname, bio);
     }
 
     //Getters

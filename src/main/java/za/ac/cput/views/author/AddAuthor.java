@@ -7,10 +7,28 @@ package za.ac.cput.views.author;
  * Date: 19 October 2021
  */
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.message.BasicNameValuePair;
+import za.ac.cput.entity.Author;
+import za.ac.cput.factory.AuthorFactory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddAuthor
 {
@@ -48,7 +66,7 @@ public class AddAuthor
         btnSave = new JButton("Save");
         btnCancel = new JButton("Cancel");
 
-        GUISetup();
+//        GUISetup();
     }
 
     public void GUISetup()
@@ -88,6 +106,7 @@ public class AddAuthor
         layoutArrangement.ipady= 7;        //its the height padding.
         layoutArrangement.gridwidth = 2;  //it takes over the next column cell / block
         panelCenter.add(fNamelbl,layoutArrangement);
+
         //fName user input
         layoutArrangement.insets = new Insets(2,2,4,2);
         layoutArrangement.gridx = 1;
@@ -96,6 +115,7 @@ public class AddAuthor
         layoutArrangement.ipady= 7;
         layoutArrangement.gridwidth = 1;
         panelCenter.add(fNameTxt,layoutArrangement);
+
         //surnamelbl
         layoutArrangement.insets = new Insets(2,2,4,2);
         layoutArrangement.gridx = 0;
@@ -104,6 +124,7 @@ public class AddAuthor
         layoutArrangement.ipady= 7;
         layoutArrangement.gridwidth = 2;
         panelCenter.add(surnamelbl,layoutArrangement);
+
         //surname user input
         layoutArrangement.insets = new Insets(2,2,4,2);
         layoutArrangement.gridx = 1;
@@ -112,14 +133,16 @@ public class AddAuthor
         layoutArrangement.ipady = 7;
         layoutArrangement.gridwidth = 1;
         panelCenter.add(surnameTxt,layoutArrangement);
-        //phoneNumlbl
+
+        //phoneNumlbl **
         layoutArrangement.insets = new Insets(2,2,4,2);
         layoutArrangement.gridx = 0;
         layoutArrangement.gridy = 3;
-        layoutArrangement.ipadx = 450;
+        layoutArrangement.ipadx = 316;
         layoutArrangement.ipady= 7;
         layoutArrangement.gridwidth = 2;
         panelCenter.add(phoneNumlbl,layoutArrangement);
+
         //phoneNum user input
         layoutArrangement.insets = new Insets(2,2,4,2);
         layoutArrangement.gridx = 1;
@@ -128,6 +151,7 @@ public class AddAuthor
         layoutArrangement.ipady = 200;
         layoutArrangement.gridwidth = 1;
         panelCenter.add(phoneNumTxt,layoutArrangement);
+
         //canRent user input
         layoutArrangement.insets = new Insets(2,2,2,2);
         layoutArrangement.gridx = 1;
@@ -194,31 +218,23 @@ public class AddAuthor
         {
             public void actionPerformed(ActionEvent e)
             {
-//                    try
-//                    {   // Not sure if we should use sockets or what
-//                        Socket s = new Socket("localhost",  5432);
-//                        OutputStream out = s.getOutputStream();
-//                        InputStream in = s.getInputStream();
-//
-//                        ObjectOutputStream oos = new ObjectOutputStream(out);
-//                        Customer c = new Customer(0, fNameTxt.getText(), surnameTxt.getText(), phoneNumTxt.getText(), Double.parseDouble(creditTxt.getText()), btnTrue.isSelected());
-//                        oos.writeUTF("addCustomer");
-//                        oos.writeObject(c);
-//                        // Close the stream and connection
-//                        oos.flush();
-//                        oos.close();
-//
-//                        ObjectInputStream ois = new ObjectInputStream(in);
-//                        String feedback = ois.readUTF();
-//
-//                        // Close the stream and connection
-//                        ois.close();
-//                        s.close();
-//                        JOptionPane.showMessageDialog(structure, feedback);
-//                    } catch (IOException ex)
-//                    {
-//                        ex.printStackTrace(System.out);
-//                    }
+                Author author = AuthorFactory.createAuthor(
+                        fNameTxt.getText(),
+                        surnameTxt.getText(),
+                        phoneNumTxt.getText()
+                );
+                try {
+                    HttpClient client = HttpClient.newHttpClient();
+                    HttpRequest request = HttpRequest.newBuilder()
+                            .uri(new URI("http://localhost:8080/author/create"))
+                            .POST(HttpRequest.BodyPublishers.ofString(author.json()))
+                            .header("Content-type", "application/json")
+                            .build();
+                    client.send(request, HttpResponse.BodyHandlers.discarding());
+                    structure.setVisible(false);
+                } catch (IOException | URISyntaxException | InterruptedException ex) {
+                    ex.printStackTrace();
+                }
             }//End of actionPerformed
         });//End of ActionListener
 
