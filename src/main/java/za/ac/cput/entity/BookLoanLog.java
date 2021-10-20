@@ -6,92 +6,127 @@ package za.ac.cput.entity;
     Description: BookLoanLog Entity using Builder Pattern
  */
 
-public class BookLoanLog {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@Entity
+public class BookLoanLog implements Serializable {
+    @Id
     private String bookLoanLogId;
     private String userId;
     private String bookId;
-    private String lentFromDate;
-    private String lentToDate;
-    private boolean isCheckOut;
+    String lentFromDate;
+    String lentToDate;
+    boolean isCheckOut;
 
-    private BookLoanLog(BookLoanLogBuilder bookLoanLogBuilder){
-        this.bookLoanLogId = bookLoanLogBuilder.bookLoanLogId;
-        this.userId = bookLoanLogBuilder.userId;
-        this.bookId = bookLoanLogBuilder.bookId;
-        this.lentFromDate = bookLoanLogBuilder.lentFromDate;
-        this.lentToDate = bookLoanLogBuilder.lentToDate;
-        this.isCheckOut = bookLoanLogBuilder.isCheckOut;
+
+    private BookLoanLog(){}
+
+    private BookLoanLog(Builder builder){
+        this.bookLoanLogId = builder.bookLoanLogId;
+        this.userId = builder.userId;
+        this.bookId = builder.bookId;
+        this.lentFromDate = builder.lentFromDate;
+        this.lentToDate = builder.lentToDate;
+        this.isCheckOut = builder.isCheckOut;
     }
 
-    public static BookLoanLogBuilder bookLoanLogBuilder(){
-        return new BookLoanLogBuilder();
+    public String getBookLoanLogId() {
+        return bookLoanLogId;
     }
 
-    public static BookLoanLogBuilder bookLoanLogBuilder(BookLoanLog copy){
-        BookLoanLogBuilder bookLoanLogBuilder = new BookLoanLogBuilder();
-        bookLoanLogBuilder.bookLoanLogId = copy.bookLoanLogId;
-        bookLoanLogBuilder.userId = copy.userId;
-        bookLoanLogBuilder.bookId = copy.bookId;
-        bookLoanLogBuilder.lentFromDate = copy.lentFromDate;
-        bookLoanLogBuilder.lentToDate = copy.lentToDate;
-        bookLoanLogBuilder.isCheckOut = copy.isCheckOut;
-        return bookLoanLogBuilder();
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public String getLentFromDate() {
+        return lentFromDate;
+    }
+
+    public String getLentToDate() {
+        return lentToDate;
+    }
+
+    public boolean isCheckOut() {
+        return isCheckOut;
     }
 
     @Override
     public String toString() {
-        return "BookLoanLog: \n" +
-                "bookLoanLogId: " + bookLoanLogId + "\n" +
-                "userId: " + userId + "\n" +
-                "bookId: " + bookId + "\n" +
-                "lentFromDate: " + lentFromDate + "\n" +
-                "lentToDate: " + lentToDate + "\n" +
-                "isCheckOut: " + isCheckOut + "\n"
-
-                ;
+        return "BookLoanLog{" +
+                "bookLoanLogId='" + bookLoanLogId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", bookId='" + bookId + '\'' +
+                ", lentFromDate=" + lentFromDate +
+                ", lentToDate=" + lentToDate +
+                ", isCheckOut=" + isCheckOut +
+                '}';
     }
 
-
-    public static class BookLoanLogBuilder{
+    public static class Builder{
         private String bookLoanLogId;
         private String userId;
         private String bookId;
-        private String lentFromDate;
-        private String lentToDate;
-        private boolean isCheckOut;
+        String lentFromDate;
+        String lentToDate;
+        boolean isCheckOut;
 
-        public BookLoanLogBuilder withBookLoanLogId(String bookLoanLogId) {
+        public Builder setBookLoanLogId(String bookLoanLogId) {
             this.bookLoanLogId = bookLoanLogId;
             return this;
         }
 
-        public BookLoanLogBuilder withUserId(String userId) {
+        public Builder setUserId(String userId) {
             this.userId = userId;
             return this;
         }
 
-        public BookLoanLogBuilder withBookId(String bookId) {
+        public Builder setBookId(String bookId) {
             this.bookId = bookId;
             return this;
         }
 
-        public BookLoanLogBuilder withLentFromDate(String lentFromDate) {
-            this.lentFromDate = lentFromDate;
+        public Builder setLentFromDate(String lentFromDate) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
+            java.sql.Date timePara  = null;
+            timePara = new java.sql.Date(new Date().getTime());
+            this.lentFromDate = String.valueOf(timePara);
             return this;
         }
 
-        public BookLoanLogBuilder withLentToDate(String lentToDate) {
-            this.lentToDate = lentToDate;
+        public Builder setLentToDate(String lentToDate) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
+            java.sql.Date timePara  = null;
+            timePara = new java.sql.Date(new Date().getTime());
+            this.lentToDate = String.valueOf(timePara);
             return this;
         }
 
-        public BookLoanLogBuilder withCheckOut(boolean checkOut) {
+        public Builder setCheckOut(boolean checkOut) {
             isCheckOut = checkOut;
             return this;
         }
 
-        public BookLoanLog build() {
+        public BookLoanLog build(){
+
             return new BookLoanLog(this);
+        }
+
+        public Builder copy(BookLoanLog bookLoanLog){
+            this.bookLoanLogId = bookLoanLog.bookLoanLogId;
+            this.userId = bookLoanLog.userId;
+            this.bookId = bookLoanLog.bookId;
+            this.lentFromDate = bookLoanLog.lentFromDate;
+            this.lentToDate = bookLoanLog.lentToDate;
+            this.isCheckOut = bookLoanLog.isCheckOut;
+            return this;
         }
     }
 }
