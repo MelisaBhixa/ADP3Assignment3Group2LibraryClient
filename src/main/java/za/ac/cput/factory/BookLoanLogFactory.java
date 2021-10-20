@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class BookLoanLogFactory {
 
-    public static BookLoanLog createBookLoanLog(Date lentFromDate, Date lentToDate, boolean isCheckOut){
+    public static BookLoanLog createBookLoanLog(String lentFromDate, String lentToDate, boolean isCheckOut){
 
         String bookLoanLogId = GenericHelper.generateId();
         String userId = GenericHelper.generateId();

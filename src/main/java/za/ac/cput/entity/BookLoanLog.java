@@ -11,21 +11,21 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 @Entity
 public class BookLoanLog implements Serializable {
-
     @Id
     private String bookLoanLogId;
     private String userId;
     private String bookId;
-    Date lentFromDate;
-    Date lentToDate;
+    String lentFromDate;
+    String lentToDate;
     boolean isCheckOut;
 
 
     private BookLoanLog(){}
 
-    private BookLoanLog(BookLoanLog.Builder builder){
+    private BookLoanLog(Builder builder){
         this.bookLoanLogId = builder.bookLoanLogId;
         this.userId = builder.userId;
         this.bookId = builder.bookId;
@@ -46,11 +46,11 @@ public class BookLoanLog implements Serializable {
         return bookId;
     }
 
-    public Date getLentFromDate() {
+    public String getLentFromDate() {
         return lentFromDate;
     }
 
-    public Date getLentToDate() {
+    public String getLentToDate() {
         return lentToDate;
     }
 
@@ -74,8 +74,8 @@ public class BookLoanLog implements Serializable {
         private String bookLoanLogId;
         private String userId;
         private String bookId;
-        Date lentFromDate;
-        Date lentToDate;
+        String lentFromDate;
+        String lentToDate;
         boolean isCheckOut;
 
         public Builder setBookLoanLogId(String bookLoanLogId) {
@@ -93,19 +93,19 @@ public class BookLoanLog implements Serializable {
             return this;
         }
 
-        public Builder setLentFromDate(Date lentFromDate) {
+        public Builder setLentFromDate(String lentFromDate) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
             java.sql.Date timePara  = null;
             timePara = new java.sql.Date(new Date().getTime());
-            this.lentFromDate = timePara;
+            this.lentFromDate = String.valueOf(timePara);
             return this;
         }
 
-        public Builder setLentToDate(Date lentToDate) {
+        public Builder setLentToDate(String lentToDate) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss");
             java.sql.Date timePara  = null;
             timePara = new java.sql.Date(new Date().getTime());
-            this.lentToDate = timePara;
+            this.lentToDate = String.valueOf(timePara);
             return this;
         }
 
@@ -119,7 +119,7 @@ public class BookLoanLog implements Serializable {
             return new BookLoanLog(this);
         }
 
-        public BookLoanLog.Builder copy(BookLoanLog bookLoanLog){
+        public Builder copy(BookLoanLog bookLoanLog){
             this.bookLoanLogId = bookLoanLog.bookLoanLogId;
             this.userId = bookLoanLog.userId;
             this.bookId = bookLoanLog.bookId;
