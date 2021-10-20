@@ -1,5 +1,6 @@
 package za.ac.cput.views;
 
+import za.ac.cput.views.user.UserMainGUI;
 import com.google.gson.Gson;
 import okhttp3.*;
 import za.ac.cput.entity.User;
@@ -70,7 +71,7 @@ public class Menu extends JFrame implements ActionListener {
         this.add(btnExit);
         btnExit.addActionListener(this);
 
-        this.setPreferredSize(new Dimension(300, 300));
+        this.setPreferredSize(new Dimension(500, 300));
 
         this.pack();
         this.setLocationRelativeTo(null); // Center screen
@@ -80,8 +81,10 @@ public class Menu extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == btnUserConfig) {
             // Reference custom method here
-            JOptionPane.showMessageDialog(null,"User Config Menu Option Selected");
+            // JOptionPane.showMessageDialog(null,"User Config Menu Option Selected");
             // Call to user package and the UserMainGUI to show CRUD menu for that entity
+            UserMainGUI.main(null);
+            this.setVisible(false);
         }
         if (e.getSource() == btnExit) {
             System.exit(0);
