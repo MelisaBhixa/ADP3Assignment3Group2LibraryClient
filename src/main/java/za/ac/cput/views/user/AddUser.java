@@ -96,6 +96,7 @@ public class AddUser extends JFrame implements ActionListener {
         this.add(btnSave);
         btnSave.addActionListener(this);
         this.add(btnCancel);
+        btnCancel.addActionListener(this);
 
         this.setPreferredSize(new Dimension(300, 300));
 
